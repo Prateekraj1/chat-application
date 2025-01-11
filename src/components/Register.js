@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 import api from './api';
 import { useForm } from 'react-hook-form';
 
 const RegisterPage = () => {
+    const { setUser } = useUser();
     const navigate = useNavigate();
     const {
         register,
@@ -12,12 +14,15 @@ const RegisterPage = () => {
 
     const onSubmit = async (data) => {
         try {
-            await api.post('/register', data);
-            navigate('/');
+            const response = await api.post('/register', data);
+            setUser(response.data);
+            localStorage.setItem('token', response.data.token); // Save token
+            navigate("/chat");
         } catch (error) {
             console.error('Registration failed:', error.response?.data || error.message);
         }
     };
+
     return (
         <div className="login-container">
             <h1>Register for ChatApp</h1>
@@ -50,4 +55,5 @@ const RegisterPage = () => {
         </div>
     );
 };
+
 export default RegisterPage;

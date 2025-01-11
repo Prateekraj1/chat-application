@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { socket } from "../App";
+import { useSocket } from "../context/SocketContext";
 
 const ChatPage = () => {
     const { user } = useUser();
@@ -9,20 +9,20 @@ const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [users, setUsers] = useState([]);
-
+    const { socket } = useSocket();
     useEffect(() => {
         const token = localStorage.getItem("token");
+
         if (!token) {
             navigate("/");
             return;
         }
-
-        // Ensure socket is connected
-        if (!socket.connected) {
-            socket.connect();
+        if(!socket.conected){
+            socket.connect()
         }
-
-        // Listen for messages and user updates
+        if (user) {
+            socket.emit("join", user.username);
+        }
         socket.on("message", (message) => {
             setMessages((prev) => [...prev, message]);
         });
@@ -39,17 +39,13 @@ const ChatPage = () => {
             })));
         });
 
-        if (user) {
-            socket.emit("join", user.username);
-        }
-
         // Clean up socket listeners on unmount
         return () => {
             socket.off("message");
             socket.off("userList");
             socket.off("chatHistory");
         };
-    }, [user, navigate]);
+    }, [user]);
 
     const sendMessage = () => {
         if (input.trim() && user) {
@@ -66,7 +62,6 @@ const ChatPage = () => {
         socket.disconnect();
         navigate("/");
     };
-
     return (
         <div className="chat-container">
             <div className="header">
