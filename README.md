@@ -17,7 +17,7 @@ A real-time chat application built using React.js and Node.js with WebSocket com
 
 - **Frontend**: React.js, CSS
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+- **Database**: Mysql
 - **WebSocket**: Socket.IO
 - **Authentication**: JSON Web Tokens (JWT)
 
@@ -66,14 +66,14 @@ npm install
 
 ### 3. Set Up Environment Variables
 
-Create a `.env` file in the `server` directory and add the following variables:
+Create a `.env` file in the `server` and `frontend` directory and add the following variables:
 
-```plaintext
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/chatapp
-JWT_SECRET=your_jwt_secret
+```plaintext(server)
+FRONTEND_URL=http://localhost:3000
 ```
-
+```frontend
+BACKEND_URL=http://localhost:5000
+```
 In the `client` directory, create a `.env` file and specify the backend API URL:
 
 ```plaintext
@@ -133,6 +133,6 @@ This project is licensed under the MIT License.
 
 ## Contributors
 
-- [Your Name](https://github.com/your-username)
+- Prateek Raj
 
 --- 
