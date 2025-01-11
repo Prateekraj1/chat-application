@@ -1,70 +1,138 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Real-Time Chat Application
 
-## Available Scripts
+A real-time chat application built using React.js and Node.js with WebSocket communication (Socket.IO) for real-time messaging. This project supports user authentication, chat history, and online user tracking.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **User Authentication**: Secure login and signup functionality.
+- **Real-Time Messaging**: Messages are sent and received instantly using Socket.IO.
+- **Online User Tracking**: Displays a list of online users.
+- **Chat History**: Fetches and displays chat history on login.
+- **Responsive Design**: Works seamlessly across different screen sizes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- **Frontend**: React.js, CSS
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **WebSocket**: Socket.IO
+- **Authentication**: JSON Web Tokens (JWT)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Before setting up the project, ensure you have the following installed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js (v16 or higher)
+- MongoDB (local or cloud instance)
+- Git
+- A modern web browser
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Follow the steps below to set up and run the project locally.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. Clone the Repository
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+git clone git@github.com:<your-username>/<repository-name>.git
+cd <repository-name>
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. Install Dependencies
 
-## Learn More
+#### Backend
+Navigate to the `server` directory and install the dependencies:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd server
+npm install
+```
+also run the queries present inside data.sql
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Frontend
+Navigate to the `client` directory and install the dependencies:
 
-### Code Splitting
+```bash
+cd ../client
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 3. Set Up Environment Variables
 
-### Analyzing the Bundle Size
+Create a `.env` file in the `server` directory and add the following variables:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```plaintext
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/chatapp
+JWT_SECRET=your_jwt_secret
+```
 
-### Making a Progressive Web App
+In the `client` directory, create a `.env` file and specify the backend API URL:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```plaintext
+REACT_APP_API_URL=http://localhost:5000
+```
 
-### Advanced Configuration
+### 4. Start the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Backend
+Start the server:
 
-### Deployment
+```bash
+cd server
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### Frontend
+Start the client:
 
-### `npm run build` fails to minify
+```bash
+cd ../client
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Usage
+
+1. Open your browser and navigate to `http://localhost:3000`.
+2. Register a new account or log in with an existing one.
+3. Start a chat with other users in real time.
+
+---
+
+## Project Structure
+
+```
+/client       - React frontend
+/server       - Node.js backend
+README.md     - Project documentation
+```
+
+---
+
+## Troubleshooting
+
+- **User not authenticated**: Ensure the JWT token is being stored in `localStorage` and included in API requests.
+- **Database connection error**: Verify your MongoDB instance is running and the `MONGO_URI` is correct.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Contributors
+
+- [Your Name](https://github.com/your-username)
+
+--- 
