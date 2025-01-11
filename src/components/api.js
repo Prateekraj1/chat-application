@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // Correct import for jwt-decode
-import { useNavigate } from 'react-router-dom';
 
 // Axios instance
 const api = axios.create({
@@ -26,7 +24,6 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
-      localStorage.removeItem('user');  // Clear user data
       window.location.href = '/'; // Redirect to login
     }
     return Promise.reject(error);

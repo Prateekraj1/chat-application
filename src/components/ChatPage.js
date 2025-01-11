@@ -18,10 +18,9 @@ const ChatPage = () => {
         if (user) {
             socket.emit("join", user.username);
         }
-    }, []);
+    }, [user, navigate]);
 
     useEffect(() => {
-
         socket.on("message", (message) => {
             setMessages((prev) => [...prev, message]);
         });
@@ -53,41 +52,52 @@ const ChatPage = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        socket.emit("logout", user.username);
+        socket.disconnect();
+        navigate("/");
+    };
+
     return (
         <div className="chat-container">
-            <div className="user-list">
-                <h3>Online Users</h3>
-                <ul>
-                    {users.map((u, index) => (
-                        <li key={index}>{u}</li>
-                    ))}
-                </ul>
+            <div className="header">
+                <button onClick={handleLogout} className="logout-btn">Logout</button>
             </div>
-            <div className="chat-box">
-                <div className="messages">
-                    {messages.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={msg.username === user.username ? "my-message" : "other-message"}
-                        >
-                            <strong>{msg.username}: </strong>
-                            {msg.text}
-                        </div>
-                    ))}
+            <div className="chat_main_container">
+                <div className="user-list">
+                    <h3>Online Users</h3>
+                    <ul>
+                        {users.map((u, index) => (
+                            <li key={index}>{u}</li>
+                        ))}
+                    </ul>
                 </div>
-                <div className="input-container">
-                    <input
-                        type="text"
-                        placeholder="Type a message..."
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                    />
-                    <button onClick={sendMessage}>Send</button>
+                <div className="chat-box">
+                    <div className="messages">
+                        {messages.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={msg.username === user.username ? "my-message" : "other-message"}
+                            >
+                                <strong>{msg.username}: </strong>
+                                {msg.text}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            placeholder="Type a message..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                        <button onClick={sendMessage}>Send</button>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default ChatPage;
