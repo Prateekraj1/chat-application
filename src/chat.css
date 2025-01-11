@@ -24,6 +24,7 @@
   .user-list ul {
     list-style: none;
     padding: 0;
+    text-align: center;
   }
   
   .user-list li {
