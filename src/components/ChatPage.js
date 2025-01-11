@@ -14,13 +14,15 @@ const ChatPage = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/");
+            return;
         }
-        if (user) {
-            socket.emit("join", user.username);
-        }
-    }, [user, navigate]);
 
-    useEffect(() => {
+        // Ensure socket is connected
+        if (!socket.connected) {
+            socket.connect();
+        }
+
+        // Listen for messages and user updates
         socket.on("message", (message) => {
             setMessages((prev) => [...prev, message]);
         });
@@ -33,20 +35,24 @@ const ChatPage = () => {
             setMessages(messages.map((msg) => ({
                 username: msg.username,
                 text: msg.message,
-                timestamp: msg.timestamp
+                timestamp: msg.timestamp,
             })));
         });
 
+        if (user) {
+            socket.emit("join", user.username);
+        }
+
+        // Clean up socket listeners on unmount
         return () => {
             socket.off("message");
             socket.off("userList");
             socket.off("chatHistory");
-            socket.disconnect();
         };
-    }, [user]);
+    }, [user, navigate]);
 
     const sendMessage = () => {
-        if (input.trim()) {
+        if (input.trim() && user) {
             socket.emit("message", { username: user.username, text: input });
             setInput("");
         }
@@ -54,7 +60,9 @@ const ChatPage = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        socket.emit("logout", user.username);
+        if (user) {
+            socket.emit("logout", user.username);
+        }
         socket.disconnect();
         navigate("/");
     };
