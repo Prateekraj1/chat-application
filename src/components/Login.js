@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import api from './api';
+import { socket } from "../App";
 import { useForm } from 'react-hook-form';
 
 const LoginPage = () => {
@@ -17,7 +18,7 @@ const LoginPage = () => {
             const response = await api.post('/login', data);
             setUser(response.data);
             localStorage.setItem('token', response.data.token); // Save token
-            navigate('/chat');
+            navigate("/chat");
         } catch (error) {
             console.error('Login failed:', error.response?.data || error.message);
         }
